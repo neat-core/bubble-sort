@@ -22,7 +22,6 @@ const canvasHeight = 300;
 function drawArrayOnCanvas(canvasId, array) {
   const canvas = document.querySelector(`#${canvasId}`);
   let canvasXPoint = 0;
-  let canvasYPoint = 0;
 
   if (canvas.getContext) {
     const ctx = canvas.getContext("2d");
@@ -30,6 +29,7 @@ function drawArrayOnCanvas(canvasId, array) {
 
     for (const item of array) {
       const graphHeight = canvasHeight * item / Math.max(...array);
+      const canvasYPoint = canvasHeight - graphHeight;
       ctx.fillRect(canvasXPoint, canvasYPoint, graphWidth, graphHeight);
       canvasXPoint = canvasXPoint + graphWidth;
     }
