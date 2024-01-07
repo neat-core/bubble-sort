@@ -1,16 +1,17 @@
 function bubbleSort(arrayInput) {
   let array = [...arrayInput];
-  const arrayLength = array.length;
-
+  let endIndex = array.length - 1;
   let temp = 0;
-  for (let i = 0; i < arrayLength - 1; i++) {
-    for (let j = i + 1; j < arrayLength; j++) {
-      if (array[i] < array[j]) {
-        temp = array[i];
-        array[i] = array[j];
+
+  for (let i = 0; i < array.length - 1; i++) {
+    for (let j = 0; j < endIndex; j++) {
+      if (array[j] > array[j + 1]) {
+        temp = array[j + 1];
+        array[j + 1] = array[j];
         array[j] = temp;
       }
-    }
+    } 
+    endIndex = endIndex - 1;
   }
 
   return array;
@@ -33,14 +34,14 @@ function drawArrayOnCanvas(canvasId, array) {
 
     for (const item of array) {
       const graphHeight = (canvasHeight * item) / Math.max(...array);
-      ctx.strokeRect(canvasXPoint, 0, graphWidth, graphHeight);
+      ctx.fillRect(canvasXPoint, 0, graphWidth, graphHeight);
       canvasXPoint = canvasXPoint + graphWidth;
     }
   }
 }
 
-const arrayLength = 20;
-const sampleArray = new Array(20);
+const arrayLength = 10;
+const sampleArray = new Array(arrayLength);
 for (i = 0; i < arrayLength; i++) {
   sampleArray[i] = Math.round(Math.random() * 10);
 }
