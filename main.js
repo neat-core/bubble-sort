@@ -1,7 +1,7 @@
 function bubbleSort(arrayInput) {
   let array = [...arrayInput];
   const arrayLength = array.length;
-  
+
   let temp = 0;
   for (let i = 0; i < arrayLength - 1; i++) {
     for (let j = i + 1; j < arrayLength; j++) {
@@ -12,7 +12,7 @@ function bubbleSort(arrayInput) {
       }
     }
   }
-  
+
   return array;
 }
 
@@ -25,12 +25,15 @@ function drawArrayOnCanvas(canvasId, array) {
 
   if (canvas.getContext) {
     const ctx = canvas.getContext("2d");
+    // Move y point of reference point
+    ctx.translate(0, canvasHeight);
+    // Reverse y graph direction.
+    ctx.scale(1, -1);
     const graphWidth = canvasWidth / array.length;
 
     for (const item of array) {
-      const graphHeight = canvasHeight * item / Math.max(...array);
-      const canvasYPoint = canvasHeight - graphHeight;
-      ctx.fillRect(canvasXPoint, canvasYPoint, graphWidth, graphHeight);
+      const graphHeight = (canvasHeight * item) / Math.max(...array);
+      ctx.strokeRect(canvasXPoint, 0, graphWidth, graphHeight);
       canvasXPoint = canvasXPoint + graphWidth;
     }
   }
@@ -45,7 +48,3 @@ const sortedArray = bubbleSort(sampleArray);
 
 drawArrayOnCanvas("beforeSorting", sampleArray);
 drawArrayOnCanvas("afterSorting", sortedArray);
-
-// 필요 동작 기능
-// 1. 배열을 입력받아 배열 정보에 해당되는 그래프를 canvas에 그리는 함수를 생성
-// TODO: 1번에서 생성한 함수에서 그래프 그리는 로직을 다른 함수로 뺀다. 
