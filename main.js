@@ -10,7 +10,7 @@ function bubbleSort(arrayInput) {
         array[j + 1] = array[j];
         array[j] = temp;
       }
-    } 
+    }
     endIndex = endIndex - 1;
   }
 
@@ -19,6 +19,7 @@ function bubbleSort(arrayInput) {
 
 const canvasWidth = 600;
 const canvasHeight = 300;
+let isCartesianCoordinateSystemSet = false;
 
 function drawArrayOnCanvas(canvasId, array) {
   const canvas = document.querySelector(`#${canvasId}`);
@@ -26,11 +27,14 @@ function drawArrayOnCanvas(canvasId, array) {
 
   if (canvas.getContext) {
     const ctx = canvas.getContext("2d");
-    // Move y point of reference point
-    ctx.translate(0, canvasHeight);
-    // Reverse y graph direction.
-    ctx.scale(1, -1);
-    const graphWidth = canvasWidth / array.length;
+    if (isCartesianCoordinateSystemSet === false) {
+      // Move y point of reference point
+      ctx.translate(0, canvasHeight);
+      // Reverse y graph direction.
+      ctx.scale(1, -1);
+    }
+      const graphWidth = canvasWidth / array.length;
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
     for (const item of array) {
       const graphHeight = (canvasHeight * item) / Math.max(...array);
@@ -40,6 +44,31 @@ function drawArrayOnCanvas(canvasId, array) {
   }
 }
 
+
+async function drawBubbleSort(canvasId, arrayInput) {
+  let array = [...arrayInput];
+  let endIndex = array.length - 1;
+  let temp = 0;
+  const wait = (timeToDelay) =>
+    new Promise((resolve) => setTimeout(resolve, timeToDelay));
+
+  for (let i = 0; i < array.length - 1; i++) {
+    for (let j = 0; j < endIndex; j++) {
+      await wait(100);
+      drawArrayOnCanvas(canvasId, array);
+      isCartesianCoordinateSystemSet = true;
+      if (array[j] > array[j + 1]) {
+        temp = array[j + 1];
+        array[j + 1] = array[j];
+        array[j] = temp;
+      }
+    }
+    endIndex = endIndex - 1;
+  }
+
+  return array;
+}
+
 const arrayLength = 10;
 const sampleArray = new Array(arrayLength);
 for (i = 0; i < arrayLength; i++) {
@@ -47,5 +76,9 @@ for (i = 0; i < arrayLength; i++) {
 }
 const sortedArray = bubbleSort(sampleArray);
 
+isCartesianCoordinateSystemSet = false;
+drawBubbleSort("sortingAnimation", sampleArray);
+isCartesianCoordinateSystemSet = false;
 drawArrayOnCanvas("beforeSorting", sampleArray);
+isCartesianCoordinateSystemSet = false;
 drawArrayOnCanvas("afterSorting", sortedArray);
