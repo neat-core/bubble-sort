@@ -21,7 +21,7 @@ const canvasWidth = 600;
 const canvasHeight = 300;
 let isCartesianCoordinateSystemSet = false;
 
-function drawArrayOnCanvas(canvasId, array) {
+function drawArrayOnCanvas(canvasId, array, pointerIndex) {
   const canvas = document.querySelector(`#${canvasId}`);
   let canvasXPoint = 0;
 
@@ -36,9 +36,17 @@ function drawArrayOnCanvas(canvasId, array) {
       const graphWidth = canvasWidth / array.length;
       ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-    for (const item of array) {
+    for (const [index, item] of array.entries()) {
       const graphHeight = (canvasHeight * item) / Math.max(...array);
+      ctx.save();
+      if (index === pointerIndex) {
+        ctx.fillStyle = "blue";
+      }
+      else if (index === pointerIndex + 1) {
+        ctx.fillStyle = "red";
+      }
       ctx.fillRect(canvasXPoint, 0, graphWidth, graphHeight);
+      ctx.restore();
       canvasXPoint = canvasXPoint + graphWidth;
     }
   }
@@ -55,7 +63,7 @@ async function drawBubbleSort(canvasId, arrayInput) {
   for (let i = 0; i < array.length - 1; i++) {
     for (let j = 0; j < endIndex; j++) {
       await wait(100);
-      drawArrayOnCanvas(canvasId, array);
+      drawArrayOnCanvas(canvasId, array, j);
       isCartesianCoordinateSystemSet = true;
       if (array[j] > array[j + 1]) {
         temp = array[j + 1];
