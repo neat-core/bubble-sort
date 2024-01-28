@@ -116,11 +116,15 @@ async function drawBubbleSortAnimation(canvasId, arrayInput) {
   }
 }
 
-const arrayLength = 10;
-const sampleArray = new Array(arrayLength);
-for (i = 0; i < arrayLength; i++) {
-  sampleArray[i] = Math.round(Math.random() * 10);
+function drawGraph() {
+  const arrayLength = 10;
+  const sampleArray = new Array(arrayLength);
+  for (i = 0; i < arrayLength; i++) {
+    sampleArray[i] = Math.round(Math.random() * 10);
+  }
+  const sortedArray = bubbleSort(sampleArray);
+  
+  drawBubbleSortAnimation("sortingAnimation", sampleArray);
 }
-const sortedArray = bubbleSort(sampleArray);
 
-drawBubbleSortAnimation("sortingAnimation", sampleArray);
+drawGraph();
