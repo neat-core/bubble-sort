@@ -4,17 +4,26 @@ let isCartesianCoordinateSystemSet = false;
 const wait = (timeToDelay) =>
   new Promise((resolve) => setTimeout(resolve, timeToDelay));
 
+
+function bubbleSortKeyFeature(arrayInput, index) {
+  let array = [...arrayInput];
+  let temp = 0;
+  temp = array[index + 1];
+  array[index + 1] = array[index];
+  array[index] = temp;
+
+  return array;
+}
+
 function bubbleSort(arrayInput) {
   let array = [...arrayInput];
   let endIndex = array.length - 1;
-  let temp = 0;
 
   for (let i = 0; i < array.length - 1; i++) {
     for (let j = 0; j < endIndex; j++) {
       if (array[j] > array[j + 1]) {
-        temp = array[j + 1];
-        array[j + 1] = array[j];
-        array[j] = temp;
+        const tempArray = [...array];
+        array = bubbleSortKeyFeature(tempArray, j);
       }
     }
     endIndex = endIndex - 1;
@@ -62,8 +71,10 @@ async function drawBubbleSortAnimation(canvasId, arrayInput) {
     for (let i = 0; i < array.length - 1; i++) {
       for (let j = 0; j < endIndex; j++) {
         if (array[j] > array[j + 1]) {
-          const tallerGraphHeight = (canvasHeight * array[j]) / Math.max(...array);
-          const shorterGraphHeight = (canvasHeight * array[j + 1]) / Math.max(...array);
+          const tallerGraphHeight =
+            (canvasHeight * array[j]) / Math.max(...array);
+          const shorterGraphHeight =
+            (canvasHeight * array[j + 1]) / Math.max(...array);
           const canvasXPointStart = graphWidth * j;
           let tallerXPoint = canvasXPointStart;
           let shorterXPoint = canvasXPointStart + graphWidth;
@@ -79,7 +90,7 @@ async function drawBubbleSortAnimation(canvasId, arrayInput) {
           while (shorterXPoint >= canvasXPointStart) {
             // Draw taller graph item.
             ctx.fillStyle = "blue";
-            ctx.translate(tallerXPoint, 0)
+            ctx.translate(tallerXPoint, 0);
             ctx.fillRect(0, 0, graphWidth, tallerGraphHeight);
             ctx.restore();
             ctx.save();
@@ -100,9 +111,8 @@ async function drawBubbleSortAnimation(canvasId, arrayInput) {
           }
 
           // Do real sorting.
-          temp = array[j + 1];
-          array[j + 1] = array[j];
-          array[j] = temp;
+          const tempArray = [...array];
+          array = bubbleSortKeyFeature(tempArray, j);
         }
       }
       endIndex = endIndex - 1;
