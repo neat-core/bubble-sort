@@ -1,9 +1,7 @@
 const canvasWidth = 600;
 const canvasHeight = 300;
-let isCartesianCoordinateSystemSet = false;
 const wait = (timeToDelay) =>
   new Promise((resolve) => setTimeout(resolve, timeToDelay));
-
 
 function bubbleSortKeyFeature(arrayInput, index) {
   let array = [...arrayInput];
@@ -39,12 +37,6 @@ function drawArrayOnCanvas(canvasId, array) {
 
   if (canvas.getContext) {
     const ctx = canvas.getContext("2d");
-    // if (isCartesianCoordinateSystemSet === false) {
-    //   // Move y point of reference point
-    //   ctx.translate(0, canvasHeight);
-    //   // Reverse y graph direction.
-    //   ctx.scale(1, -1);
-    // }
     const graphWidth = canvasWidth / array.length;
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
@@ -59,7 +51,6 @@ function drawArrayOnCanvas(canvasId, array) {
 async function drawBubbleSortAnimation(canvasId, arrayInput) {
   let array = [...arrayInput];
   let endIndex = array.length - 1;
-  let temp = 0;
 
   const canvas = document.querySelector(`#${canvasId}`);
   const graphWidth = canvasWidth / array.length;
@@ -67,6 +58,9 @@ async function drawBubbleSortAnimation(canvasId, arrayInput) {
   // Start to draw animation on canvas
   if (canvas.getContext) {
     const ctx = canvas.getContext("2d");
+    // Set graph to cartesianCoordinateSystem
+    ctx.translate(0, canvasHeight);
+    ctx.scale(1, -1);
 
     for (let i = 0; i < array.length - 1; i++) {
       for (let j = 0; j < endIndex; j++) {
@@ -129,9 +123,4 @@ for (i = 0; i < arrayLength; i++) {
 }
 const sortedArray = bubbleSort(sampleArray);
 
-// isCartesianCoordinateSystemSet = false;
 drawBubbleSortAnimation("sortingAnimation", sampleArray);
-// isCartesianCoordinateSystemSet = false;
-drawArrayOnCanvas("beforeSorting", sampleArray);
-// isCartesianCoordinateSystemSet = false;
-drawArrayOnCanvas("afterSorting", sortedArray);
