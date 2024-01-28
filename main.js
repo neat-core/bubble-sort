@@ -24,7 +24,7 @@ function bubbleSort(arrayInput) {
 }
 
 // Draw array instantly.
-async function drawArrayOnCanvas(canvasId, array) {
+function drawArrayOnCanvas(canvasId, array) {
   const canvas = document.querySelector(`#${canvasId}`);
   let canvasXPoint = 0;
 
@@ -45,8 +45,6 @@ async function drawArrayOnCanvas(canvasId, array) {
       canvasXPoint = canvasXPoint + graphWidth;
     }
   }
-
-  return new Promise((resolve) => resolve(1));
 }
 
 async function drawBubbleSortAnimation(canvasId, arrayInput) {
@@ -79,11 +77,10 @@ async function drawBubbleSortAnimation(canvasId, arrayInput) {
           const animationMS = 2000;
           ctx.save();
           while (shorterXPoint >= canvasXPointStart) {
-            // TODO: Add function to pause animation using await.
-
             // Draw taller graph item.
             ctx.fillStyle = "blue";
-            ctx.fillRect(tallerXPoint, 0, graphWidth, tallerGraphHeight);
+            ctx.translate(tallerXPoint, 0)
+            ctx.fillRect(0, 0, graphWidth, tallerGraphHeight);
             ctx.restore();
             ctx.save();
             // Move x grid to left.
@@ -91,7 +88,8 @@ async function drawBubbleSortAnimation(canvasId, arrayInput) {
 
             // Draw shorter graph item.
             ctx.fillStyle = "red";
-            ctx.fillRect(shorterXPoint, 0, graphWidth, shorterGraphHeight);
+            ctx.translate(shorterXPoint, 0);
+            ctx.fillRect(0, 0, graphWidth, shorterGraphHeight);
             ctx.restore();
             ctx.save();
             // Moving x grid to right.
