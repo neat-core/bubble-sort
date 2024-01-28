@@ -97,6 +97,7 @@ async function drawBubbleSortAnimation(canvasId, arrayInput) {
             // Moving x grid to right.
             shorterXPoint = shorterXPoint - 1;
 
+            await wait(5);
             ctx.clearRect(canvasXPointStart, 0, graphWidth * 2, canvasHeight);
           }
 
@@ -113,10 +114,10 @@ async function drawBubbleSortAnimation(canvasId, arrayInput) {
   }
 }
 
-const arrayLength = 6;
+const arrayLength = 10;
 const sampleArray = new Array(arrayLength);
 for (i = 0; i < arrayLength; i++) {
-  sampleArray[i] = Math.round(Math.random() * 5);
+  sampleArray[i] = Math.round(Math.random() * 10);
 }
 const sortedArray = bubbleSort(sampleArray);
 
